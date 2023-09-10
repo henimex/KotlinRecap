@@ -33,29 +33,35 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun typeResult(result: Double): String {
-        hideKeyboard();
-        return "Result : $result"
-    }
-
-    private fun makeCalculation(operation: Int): Double {
-        val numOne = binding.txtNumberOne.text.toString().toDouble();
-        val numTwo = binding.txtNumberTwo.text.toString().toDouble();
-
-        return when (operation) {
-            1 -> numOne + numTwo
-            2 -> numOne - numTwo
-            3 -> numOne * numTwo
-            4 -> numOne / numTwo
-            else -> {
-                0.0
-            }
+    private fun typeResult(result: Double?): String {
+        if (result == null) {
+            return "Please Enter Both Numbers"
+        } else {
+            hideKeyboard();
+            return "Result : $result"
         }
     }
 
-    private fun hideKeyboard(){
+    private fun makeCalculation(operation: Int): Double? {
+        val numOne = binding.txtNumberOne.text.toString().toDoubleOrNull();
+        val numTwo = binding.txtNumberTwo.text.toString().toDoubleOrNull();
+
+        if (numOne != null && numTwo != null) {
+            return when (operation) {
+                1 -> numOne + numTwo
+                2 -> numOne - numTwo
+                3 -> numOne * numTwo
+                4 -> numOne / numTwo
+                else -> {
+                    null
+                }
+            }
+        }
+        return null
+    }
+
+    private fun hideKeyboard() {
         binding.txtNumberOne.onEditorAction(EditorInfo.IME_ACTION_DONE)
         binding.txtNumberTwo.onEditorAction(EditorInfo.IME_ACTION_DONE)
     }
-
 }
